@@ -4963,7 +4963,6 @@ GameObject:
   - component: {fileID: 1337017212091396081}
   - component: {fileID: 1307047461}
   - component: {fileID: 8245681687763684469}
-  - component: {fileID: 6487695030475620931}
   m_Layer: 0
   m_Name: Projectil
   m_TagString: Untagged
@@ -4979,7 +4978,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1337017212091396082}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.253, y: 1.1159999, z: 1.341}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5000,8 +4999,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.12, y: 0.09, z: 0.1}
-  m_Center: {x: -0.16, y: 0, z: 0}
+  m_Size: {x: 0.12, y: 0.09, z: 0.28}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &8245681687763684469
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5018,18 +5017,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6487695030475620931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1337017212091396082}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09eac4f52f0487b41b41c189202093db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1337017212266442015
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using System;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -16,23 +17,30 @@ namespace Characters
         private Vector3 _currentMovement;
         private Vector3 _movementY;
         private bool _isMovementPressed;
-        
+
         //Movement Variables
-        private protected float RunSpeed;
-        private protected float WalkSpeed;
+        [SerializeField] protected float runSpeed;
+        [SerializeField] protected float walkSpeed;
         private bool _isWalkPressed;
         
+        //Camera Variables
+        [SerializeField] protected float mouseSensitivity;
+        [SerializeField] private Vector2 _mouseInput;
+        private Transform _headObject;
+        private float _cameraRotX = 0f;
+        private Camera _camera;
+
         //Gravity Variables
         private float _gravity;
         private const float GroundedGravity = -2.0f;
-        
+
         //Jumping Variables
         private bool _isJumpPressed = false;
         private float _initialJumpVelocity;
         private bool _isJumping = false;
         private const float MaxJumpHeight = 1f;
         private const float MaxJumpTime = 0.5f;
-        
+
         //GroundCheck
         private Transform _groundCheck;
         private bool _isGrounded;
@@ -43,7 +51,11 @@ namespace Characters
         {
             _playerInput = new PlayerInputController();
             _charController = GetComponent<CharacterController>();
+            
             _groundCheck = transform.Find("GroundCheck");
+            _headObject = transform.Find("Head");
+            _camera = Camera.main;
+
             _groundMask = LayerMask.GetMask("Ground");
 
             _playerInput.Main.Movement.performed += OnMovementInput;
@@ -52,8 +64,9 @@ namespace Characters
             _playerInput.Main.Jump.canceled += OnJumpInput;
             _playerInput.Main.Walk.started += OnWalkInput;
             _playerInput.Main.Walk.canceled += OnWalkInput;
+            _playerInput.Main.Look.performed += OnMouseInput;
+            _playerInput.Main.Look.canceled += OnMouseInput;
 
-            
             SetupJumpVariables();
         }
 
@@ -64,9 +77,13 @@ namespace Characters
             _initialJumpVelocity = (2 * MaxJumpHeight) / timeToApex;
         }
 
+        private void OnMouseInput(InputAction.CallbackContext obj)
+        {
+            _mouseInput = obj.ReadValue<Vector2>();
+        }
+
         private void OnWalkInput(InputAction.CallbackContext obj)
         {
-            //if (!_charController.isGrounded) return;
             _isWalkPressed = obj.ReadValueAsButton();
         }
 
@@ -83,19 +100,34 @@ namespace Characters
 
         private void Update()
         {
-            GroundCheck();
+            HandleGroundCheck();
             HandleMovement();
             HandleGravity();
             HandleJump();
+            
+            MouseMovement();
 
             //Character Movement
             _currentMovement.y = MathF.Max(_movementY.y, -20.0f);
             _charController.Move(_currentMovement * Time.deltaTime);
         }
 
-        private void GroundCheck()
+        private void MouseMovement()
         {
-            _isGrounded = Physics.CheckSphere(_groundCheck.position, CheckRadius,_groundMask);
+            var mouseSensitivityDelta = mouseSensitivity * Time.deltaTime;
+            var mouseX = _mouseInput.x * mouseSensitivityDelta;
+            var mouseY = _mouseInput.y * mouseSensitivityDelta;
+
+            _cameraRotX -= mouseY;
+            _cameraRotX = Mathf.Clamp(_cameraRotX, -90f, 90);
+
+            _headObject.transform.localRotation = Quaternion.Euler(_cameraRotX, 0,0);
+            transform.Rotate(Vector3.up * mouseX);
+        }
+
+        private void HandleGroundCheck()
+        {
+            _isGrounded = Physics.CheckSphere(_groundCheck.position, CheckRadius, _groundMask);
         }
 
         private void HandleJump()
@@ -104,9 +136,10 @@ namespace Characters
             {
                 _isJumping = true;
                 _movementY.y = _isWalkPressed
-                    ? (_initialJumpVelocity / 2 )
+                    ? (_initialJumpVelocity / 2)
                     : _initialJumpVelocity;
-            } else if (!_isJumpPressed && _isJumping && _charController.isGrounded)
+            }
+            else if (!_isJumpPressed && _isJumping && _charController.isGrounded)
             {
                 _isJumping = false;
             }
@@ -117,16 +150,7 @@ namespace Characters
             var yTransform = transform;
             _currentMovement = (_movementInput.x * yTransform.right) + (_movementInput.y * yTransform.forward);
 
-            switch (_isWalkPressed)
-            {
-                case true when _isGrounded:
-                    _currentMovement *= WalkSpeed;
-                    break;
-                default:
-                    _currentMovement *= RunSpeed;
-                    break;
-            }
-            
+            _currentMovement *= _isWalkPressed switch { true when _isGrounded => walkSpeed, _ => runSpeed };
         }
 
         private void HandleGravity()
