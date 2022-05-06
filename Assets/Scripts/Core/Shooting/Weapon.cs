@@ -1,29 +1,28 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using Character;
+using Core.Character;
+using Scriptable.Weapons;
 using UnityEngine;
 
-namespace CatCode.Core
+namespace Core.Shooting
 {
-    public class Gun : MonoBehaviour
+    public class Weapon : MonoBehaviour
     {
-        [Header("References")]
-        [SerializeField] private GunData gunData;
+        [Header("References")] [SerializeField]
+        private WeaponScriptable gunData;
+
         [SerializeField] private Transform firePoint;
 
         private float _timeSinceLastShot;
 
         private void Awake()
         {
-            PlayerShoot.ShootInput += Shoot;
-            PlayerShoot.ReloadInput += StartReload;
+            ShootAction.ShootInput += Shooting;
+            ShootAction.ReloadInput += StartReload;
         }
 
         private void Update()
         {
             _timeSinceLastShot += Time.deltaTime;
-            
         }
 
         private void StartReload()
@@ -37,17 +36,17 @@ namespace CatCode.Core
         private IEnumerator Reload()
         {
             yield return new WaitForSeconds(gunData.reloadTime);
-            
+
             gunData.currentAmmo = gunData.magSize;
             gunData.reloading = false;
         }
 
         private bool CanShoot()
         {
-            return !gunData.reloading && _timeSinceLastShot > 1f / (gunData.fireRate/ 60f);
+            return !gunData.reloading && _timeSinceLastShot > 1f / (gunData.fireRate / 60f);
         }
 
-        private void Shoot()
+        private void Shooting()
         {
             if (gunData.currentAmmo <= 0) return;
             if (!CanShoot()) return;
@@ -63,13 +62,12 @@ namespace CatCode.Core
 
         private void OnGunShot()
         {
-            
         }
 
         private void OnDisable()
         {
-            PlayerShoot.ShootInput -= Shoot;
-            PlayerShoot.ReloadInput -= StartReload;
+            ShootAction.ShootInput -= Shooting;
+            ShootAction.ReloadInput -= StartReload;
         }
     }
 }

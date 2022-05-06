@@ -1,6 +1,4 @@
-using System;
-
-namespace Characters
+namespace Core.Character
 {
     public class Player : Character
     {

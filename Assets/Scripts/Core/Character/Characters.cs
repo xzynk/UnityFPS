@@ -1,10 +1,8 @@
 using System;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Characters
+namespace Core.Character
 {
     public class Character : MonoBehaviour
     {
@@ -24,8 +22,8 @@ namespace Characters
         private bool _isWalkPressed;
         
         //Camera Variables
-        [SerializeField] protected float mouseSensitivity;
-        [SerializeField] private Vector2 _mouseInput;
+        private float _mouseSensitivity;
+        private Vector2 _mouseInput;
         private Transform _headObject;
         private float _cameraRotX = 0f;
         private Camera _camera;
@@ -114,7 +112,7 @@ namespace Characters
 
         private void MouseMovement()
         {
-            var mouseSensitivityDelta = mouseSensitivity * Time.deltaTime;
+            var mouseSensitivityDelta = _mouseSensitivity * Time.deltaTime;
             var mouseX = _mouseInput.x * mouseSensitivityDelta;
             var mouseY = _mouseInput.y * mouseSensitivityDelta;
 
