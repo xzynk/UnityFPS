@@ -16,8 +16,8 @@ namespace Core.Shooting
 
         private void Awake()
         {
-            ShootAction.ShootInput += Shooting;
-            ShootAction.ReloadInput += StartReload;
+            PlayerShoot.ShootInput += Shooting;
+            PlayerShoot.ReloadInput += StartReload;
         }
 
         private void Update()
@@ -27,6 +27,7 @@ namespace Core.Shooting
 
         private void StartReload()
         {
+       
             if (!gunData.reloading)
             {
                 StartCoroutine(Reload());
@@ -35,6 +36,8 @@ namespace Core.Shooting
 
         private IEnumerator Reload()
         {
+            gunData.reloading = true;
+
             yield return new WaitForSeconds(gunData.reloadTime);
 
             gunData.currentAmmo = gunData.magSize;
@@ -62,12 +65,13 @@ namespace Core.Shooting
 
         private void OnGunShot()
         {
+            print("shoot");
         }
 
         private void OnDisable()
         {
-            ShootAction.ShootInput -= Shooting;
-            ShootAction.ReloadInput -= StartReload;
+            PlayerShoot.ShootInput -= Shooting;
+            PlayerShoot.ReloadInput -= StartReload;
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Core.Character
         private bool _isWalkPressed;
         
         //Camera Variables
-        private float _mouseSensitivity;
+        [SerializeField] private float mouseSensitivity;
         private Vector2 _mouseInput;
         private Transform _headObject;
         private float _cameraRotX = 0f;
@@ -112,7 +112,7 @@ namespace Core.Character
 
         private void MouseMovement()
         {
-            var mouseSensitivityDelta = _mouseSensitivity * Time.deltaTime;
+            var mouseSensitivityDelta = mouseSensitivity * Time.deltaTime;
             var mouseX = _mouseInput.x * mouseSensitivityDelta;
             var mouseY = _mouseInput.y * mouseSensitivityDelta;
 

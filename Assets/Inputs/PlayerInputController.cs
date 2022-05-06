@@ -62,6 +62,24 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Reload"",
+                    ""type"": ""Button"",
+                    ""id"": ""8b7aa893-12a5-4d1f-b0bf-cfa61718d7cb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Shoot"",
+                    ""type"": ""Button"",
+                    ""id"": ""b84ba668-196b-4f86-afa4-cdf4bedc8466"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -152,6 +170,28 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
                     ""action"": ""Walk"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""67fb78f1-8389-4d60-92d5-b6ceb5ba89bf"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f39e3552-ce66-4bfd-8c72-89c2404837bd"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -164,6 +204,8 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
         m_Main_Jump = m_Main.FindAction("Jump", throwIfNotFound: true);
         m_Main_Look = m_Main.FindAction("Look", throwIfNotFound: true);
         m_Main_Walk = m_Main.FindAction("Walk", throwIfNotFound: true);
+        m_Main_Reload = m_Main.FindAction("Reload", throwIfNotFound: true);
+        m_Main_Shoot = m_Main.FindAction("Shoot", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -227,6 +269,8 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
     private readonly InputAction m_Main_Jump;
     private readonly InputAction m_Main_Look;
     private readonly InputAction m_Main_Walk;
+    private readonly InputAction m_Main_Reload;
+    private readonly InputAction m_Main_Shoot;
     public struct MainActions
     {
         private @PlayerInputController m_Wrapper;
@@ -235,6 +279,8 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
         public InputAction @Jump => m_Wrapper.m_Main_Jump;
         public InputAction @Look => m_Wrapper.m_Main_Look;
         public InputAction @Walk => m_Wrapper.m_Main_Walk;
+        public InputAction @Reload => m_Wrapper.m_Main_Reload;
+        public InputAction @Shoot => m_Wrapper.m_Main_Shoot;
         public InputActionMap Get() { return m_Wrapper.m_Main; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -256,6 +302,12 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
                 @Walk.started -= m_Wrapper.m_MainActionsCallbackInterface.OnWalk;
                 @Walk.performed -= m_Wrapper.m_MainActionsCallbackInterface.OnWalk;
                 @Walk.canceled -= m_Wrapper.m_MainActionsCallbackInterface.OnWalk;
+                @Reload.started -= m_Wrapper.m_MainActionsCallbackInterface.OnReload;
+                @Reload.performed -= m_Wrapper.m_MainActionsCallbackInterface.OnReload;
+                @Reload.canceled -= m_Wrapper.m_MainActionsCallbackInterface.OnReload;
+                @Shoot.started -= m_Wrapper.m_MainActionsCallbackInterface.OnShoot;
+                @Shoot.performed -= m_Wrapper.m_MainActionsCallbackInterface.OnShoot;
+                @Shoot.canceled -= m_Wrapper.m_MainActionsCallbackInterface.OnShoot;
             }
             m_Wrapper.m_MainActionsCallbackInterface = instance;
             if (instance != null)
@@ -272,6 +324,12 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
                 @Walk.started += instance.OnWalk;
                 @Walk.performed += instance.OnWalk;
                 @Walk.canceled += instance.OnWalk;
+                @Reload.started += instance.OnReload;
+                @Reload.performed += instance.OnReload;
+                @Reload.canceled += instance.OnReload;
+                @Shoot.started += instance.OnShoot;
+                @Shoot.performed += instance.OnShoot;
+                @Shoot.canceled += instance.OnShoot;
             }
         }
     }
@@ -282,5 +340,7 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
         void OnJump(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnWalk(InputAction.CallbackContext context);
+        void OnReload(InputAction.CallbackContext context);
+        void OnShoot(InputAction.CallbackContext context);
     }
 }
