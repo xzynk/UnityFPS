@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,10 +7,8 @@ namespace Core.Character
     public class PlayerShoot : MonoBehaviour
     {
         private PlayerInputController _playerInput;
-        public static Action ShootInput;
-        public static Action ReloadInput;
-
-        [SerializeField] private KeyCode reloadKey;
+        public static Action shootInput;
+        public static Action reloadInput;
 
         public void Awake()
         {
@@ -23,12 +20,12 @@ namespace Core.Character
 
         private static void ShootAction(InputAction.CallbackContext obj)
         {
-            ShootInput?.Invoke();
+            shootInput?.Invoke();
         }
 
         private static void ReloadAction(InputAction.CallbackContext obj)
         {
-            ReloadInput?.Invoke();
+            reloadInput?.Invoke();
         }
 
         private void OnEnable()

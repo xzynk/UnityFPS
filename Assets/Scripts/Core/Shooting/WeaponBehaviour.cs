@@ -5,19 +5,23 @@ using UnityEngine;
 
 namespace Core.Shooting
 {
-    public class Weapon : MonoBehaviour
+    public class WeaponBehaviour : MonoBehaviour
     {
         [Header("References")] [SerializeField]
-        private WeaponScriptable gunData;
+        private protected WeaponScriptable gunData;
 
-        [SerializeField] private Transform firePoint;
+        [SerializeField]
+        private Transform firePoint;
 
         private float _timeSinceLastShot;
+        private protected float bulletSpeed;
 
         private void Awake()
         {
-            PlayerShoot.ShootInput += Shooting;
-            PlayerShoot.ReloadInput += StartReload;
+            PlayerShoot.shootInput += Shooting;
+            PlayerShoot.reloadInput += StartReload;
+
+            bulletSpeed = gunData.speed;
         }
 
         private void Update()
@@ -27,7 +31,6 @@ namespace Core.Shooting
 
         private void StartReload()
         {
-       
             if (!gunData.reloading)
             {
                 StartCoroutine(Reload());
@@ -63,15 +66,14 @@ namespace Core.Shooting
             OnGunShot();
         }
 
-        private void OnGunShot()
+        protected virtual void OnGunShot()
         {
-            print("shoot");
         }
 
         private void OnDisable()
         {
-            PlayerShoot.ShootInput -= Shooting;
-            PlayerShoot.ReloadInput -= StartReload;
+            PlayerShoot.shootInput -= Shooting;
+            PlayerShoot.reloadInput -= StartReload;
         }
     }
 }

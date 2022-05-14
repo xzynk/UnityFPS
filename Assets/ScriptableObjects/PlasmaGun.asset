@@ -15,7 +15,7 @@ MonoBehaviour:
   name: PlasmaGun
   damage: 20
   maxDistance: 300
-  currentAmmo: 100
+  currentAmmo: 20
   magSize: 20
   fireRate: 200
   reloadTime: 3

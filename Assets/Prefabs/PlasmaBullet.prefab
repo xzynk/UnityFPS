@@ -4964,7 +4964,7 @@ GameObject:
   - component: {fileID: 1307047461}
   - component: {fileID: 8245681687763684469}
   m_Layer: 0
-  m_Name: Projectil
+  m_Name: PlasmaBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

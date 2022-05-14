@@ -1841,7 +1841,7 @@ GameObject:
   - component: {fileID: 595389939}
   - component: {fileID: 595389941}
   m_Layer: 0
-  m_Name: Weapon
+  m_Name: Plasma Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1922,11 +1922,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 595389936}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b339f6aeaef6af141b92aaae9f0f7efe, type: 3}
+  m_Script: {fileID: 11500000, guid: 604c4853c06a46048a9e3c679baaf1ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gunData: {fileID: 11400000, guid: 7eac9e2e0f017fc46836bf0ab124f80c, type: 2}
   firePoint: {fileID: 421664068}
+  bullet: {fileID: 1337017212091396082, guid: 51992d6c795e92e43908c53444f9adbc, type: 3}
 --- !u!1 &646921143
 GameObject:
   m_ObjectHideFlags: 0
@@ -3724,7 +3725,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7adc09d5bba6394595e45406ba16a79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reloadKey: 0
 --- !u!1 &1654940768
 GameObject:
   m_ObjectHideFlags: 0
